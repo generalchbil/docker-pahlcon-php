@@ -1,0 +1,33 @@
+{
+    "config": {
+        "vendor-dir": "vendor/"
+    },
+    "require": {
+        "mpdf/mpdf": "8.0.*",
+        "guzzlehttp/guzzle": "^7.8",
+        "mikehaertl/php-pdftk": "0.8.*",
+        "mikehaertl/php-shellcommand": "1.5.*",
+        "tmw/fpdm": "2.9.*",
+        "maximebf/debugbar": "^1.14",
+        "opensoft/rollout": "^2.3",
+        "league/flysystem-sftp-v3": "^2.5",
+        "soundasleep/html2text": "^2.0",
+        "symfony/mailer": "^5.4"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "^9.0",
+        "phalcon/cphalcon": "^v5.2",
+        "phalcon/devtools": "^4.2",
+        "enlightn/security-checker": "^1.10"
+    },
+    "autoload": {
+        "psr-0": {
+            "Phalcon": "scripts/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    }
+}

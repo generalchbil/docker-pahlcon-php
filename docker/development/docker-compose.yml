@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  php:
+    container_name: "${COMPOSE_PROJECT_NAME}"
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+      args:
+        PHALCON_VERSION: "${PHALCON_VERSION}"
+        PSR_VERSION: "${PSR_VERSION}"
+        PHP_VERSION: "${PHP_VERSION}"
+        NODEJS_VERSION: "${NODEJS_VERSION}"
+        COMPOSER_VERSION: "${COMPOSER_VERSION}"
+        GID: "${CURRENT_GID}"
+        WEB_GROUPNAME: "${WEB_GROUPNAME}"
+        UID: "${CURRENT_UID}"
+        WEB_USERNAME: "${WEB_USERNAME}"
+        APP_HOST: "${APP_HOST}"
+        APP_HOST_ALIAS: "${APP_HOST_ALIAS}"
+    restart: always
+    labels:
+      - "traefik.http.routers.${TRAEFIK_LABEL}.rule=Host(`${APP_HOST}`,`${APP_HOST_ALIAS}`)"
+      - "traefik.http.routers.${TRAEFIK_LABEL}.entrypoints=websecure"
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_web"
+      - "traefik.http.routers.${TRAEFIK_LABEL}.tls=true"
+      - "traefik.http.routers.${TRAEFIK_LABEL}.tls.certresolver=cloudflare"
+    environment:
+      APP_HOST: "${APP_HOST}"
+      DB_HOST: "${DB_HOST}"
+      DB_USER: "${DB_USER}"
+      DB_PASS: "${DB_PASS}"
+      DB_PHALCON_NAME: "${DB_PHALCON_NAME}"
+      XDEBUG_CONFIG: discover_client_host=1 client_host=host.docker.internal client_port=9003
+      XDEBUG_MODE: debug
+      PHP_IDE_CONFIG: serverName=docker
+    networks:
+      - traefik_web
+      - backend
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - ../../source:/var/www/html
+      - ../php/logs:/var/log/php
+      - ../php/php.ini:/usr/local/etc/php/php.ini
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "5"
+networks:
+  internal:
+    driver: bridge
+  backend:
+  traefik_web:
+    external: true

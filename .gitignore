@@ -1,0 +1,11 @@
+###> base ###
+.idea
+.vscode
+.DS_Store
+.env
+source/vendor/
+.idea/Extranaute-git.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/*

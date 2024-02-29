@@ -1,0 +1,10 @@
+compatibility_level = 3.6
+queue_directory = /var/spool/postfix
+data_directory = /var/lib/postfix
+mail_owner = postfix
+maillog_file = /var/log/mail.log
+home_mailbox = Maildir/
+relayhost = your_smtp
+setgid_group = postdrop
+inet_protocols = ipv4
+mail_name = My mail relay
